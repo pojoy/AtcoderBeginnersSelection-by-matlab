@@ -17,4 +17,26 @@ AtcoderでMATLABが使えるようになったら嬉しいな
 Atcoderにまとまったページがあります。
 https://atcoder.jp/contests/abs/
 
+## 入力と出力について
+
+### 入力
+
+> x = input('')\
+> str = input('', 's')
+
+を利用します。
+
+Pythonのように ``x = input()``とすると引数不足で怒られます。
+空白区切りはstrで取って``split()``します。
+
+### 出力
+
+適当に``print()``すると図がプリンターから印刷されます。(なければエラー)
+
+> fprintf(formatSpec,A1,...,An)
+
+formatSpecについては[こちら(MathWorks)](https://jp.mathworks.com/help/matlab/ref/fprintf.html#btf8xsy-1_sep_shared-formatSpec)を参照
+
+
+公式の実装がどうなるか分からないけれどとりあえずfprintf()で答えを出すところまでを目指す。
 
