@@ -67,3 +67,26 @@ fprintf("%d\n", count(str, '1'))
 
 ``count(str, pattern)`` はstr内のpatternの出現回数を返します。
 str, patternはともに行列でも大丈夫です。
+
+## ABC081B - Shift only
+
+```matlab
+clear
+
+n = input('')
+a = str2num(input('', 's'))
+
+answer = 0
+
+while mod(a, 2) == 0
+    a = a / 2
+    answer = answer + 1
+end
+
+fprintf('%d\n', answer)
+```
+
+``while ~ end`` はそのままです。whileのあとの文が真であれば継続します。
+
+``mod(a, 2)`` では1×nの行列が戻ってきます。
+これらの値が0であるかを ``== 0`` で比較し、すべて0であれば真となります。
