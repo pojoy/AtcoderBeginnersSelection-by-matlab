@@ -52,10 +52,18 @@ end
 ``if ~ elseif ~ else ~ end``
 は見やすさのためにインデントを入れていますが、MATLABでは必ずしも必要ではありません。
 
-
-``mod()`` は ``a % b`` ではできません。
+``mod(a, b)`` は ``a % b`` ではできません。
 MATLABでは ``%`` はコメントアウトになります。
+[Mathworksのmodのページ](https://jp.mathworks.com/help/symbolic/mod.html)の詳細に定義があります。
 
+## ABC081A - Placing Marbles
 
+```matlab
+clear
 
-````````
+str = input('', 's')
+fprintf("%d\n", count(str, '1'))
+```
+
+``count(str, pattern)`` はstr内のpatternの出現回数を返します。
+str, patternはともに行列でも大丈夫です。
