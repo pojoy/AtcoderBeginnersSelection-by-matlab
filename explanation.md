@@ -27,8 +27,9 @@ fprintf('%d %s\n', a+sum(secondLine), str)
 MATLABの関数は公式ドキュメントにすべて記されているので、どのような引数が必要か戻り値はどうなっているのかは「matlab 関数名」と検索するとたいてい出てきます。
 とても便利なので活用してみてください。
 
-``sum()``は行列の総和を計算してくれます。
-2×3の行列とかでも返してくれます。
+``sum(A)``はAがベクトルであれば総和を計算してくれます。
+Aが行列なら各列の和の行ベクトルが帰ってきます。
+``sum(matrix, 'all')``とかすると行列の総和が帰ってきます(2018b以降)
 
 ## ABC086A - Product
 
@@ -47,13 +48,13 @@ end
 ```
 
 ``prod()``
-は行列の要素の積を返してくれます。
+はベクトルの要素の積を返してくれます。
 
 ``if ~ elseif ~ else ~ end``
 は見やすさのためにインデントを入れていますが、MATLABでは必ずしも必要ではありません。
 
-``mod(a, b)`` は ``a % b`` ではできません。
-MATLABでは ``%`` はコメントアウトになります。
+余りは ``mod(a, b)`` で求めます。 ``a % b`` ではできません。
+MATLABでは ``%`` はコメントアウトです。
 [Mathworksのmodのページ](https://jp.mathworks.com/help/symbolic/mod.html)の詳細に定義があります。
 
 ## ABC081A - Placing Marbles
@@ -90,3 +91,42 @@ fprintf('%d\n', answer)
 
 ``mod(a, 2)`` では1×nの行列が戻ってきます。
 これらの値が0であるかを ``== 0`` で比較し、すべて0であれば真となります。
+
+## ABC087B - Coins
+
+```matlab
+clear
+
+a = input('')
+b = input('')
+c = input('')
+x = input('')
+
+answer = 0
+matrix = x - (0:a) * 500 + (0:b)' * 100
+answer = sum(matrix >= 0 & matrix <= c*50, 'all')
+fprintf('%d\n', answer)
+```
+
+MATLABでは(0:N)と書くことにより1×(N+1)のベクトルを生成します。
+またベクトルや行列に``'``をつけることにより転置したものになります。
+
+行ベクトルと列ベクトルを ``+`` 演算子で足し合わせると、行列ができあがります。[Mathworksを確認されたし](https://jp.mathworks.com/help/matlab/ref/plus.html)
+
+``matrix >= 0 & matrix <= c*50`` では０か１のlogicalな行列ができます。
+0は不適な組み合わせ、1は適当な組み合わせの時に発生するので、この行列の要素の総和が今回の答えとなります。
+
+愚直な実装であると次のようになります。
+
+```matlab
+for i = 0:a
+    for j = 0:b
+        for k = 0:c
+            if x == 500*i + 100*j + 50*k
+                answer = answer + 1;
+            end
+        end
+    end
+end
+```
+
