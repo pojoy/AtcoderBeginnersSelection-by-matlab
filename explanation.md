@@ -157,3 +157,24 @@ fprintf("%d\n", answer)
 
 ``~=`` は不等価を表します。
 
+## ABC088B - Card Game for Two
+
+```matlab
+clear
+
+n = input("")
+a = str2num(input("","s"))
+
+b = sort(a,'descend')
+
+aliceScore = sum(b(1:2:n))
+bobScore = sum(b(2:2:n))
+
+fprintf("%d\n", aliceScore - bobScore)
+```
+
+``sort(A)`` はベクトルAを昇順に並び替えます。
+``sort(A,"descend")``にすることで降順にします。
+
+[colon(:)](https://jp.mathworks.com/help/matlab/ref/colon.html)についてはMathworksを参照。``1:2:n`` はつまり ``[1, 3, 5 ..., 2*fix(n/2)]``を表します。
+``b(1:2:n)``で奇数番目の要素を抜き出しています。
