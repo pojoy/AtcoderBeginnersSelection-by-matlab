@@ -13,8 +13,6 @@ str = input('', 's')
 fprintf('%d %s\n', a+sum(secondLine), str)
 ```
 
-``input('')``
-ではコマンドウィンドウから入力を取ります。
 ``2/3``や``pi``といった入力も受け付けます。(doubleでの処理になります)
 
 ``str2num()``
@@ -178,3 +176,119 @@ fprintf("%d\n", aliceScore - bobScore)
 
 [colon(:)](https://jp.mathworks.com/help/matlab/ref/colon.html)についてはMathworksを参照。``1:2:n`` はつまり ``[1, 3, 5 ..., 2*fix(n/2)]``を表します。
 ``b(1:2:n)``で奇数番目の要素を抜き出しています。
+
+## ABC085B - Kagami Mochi
+
+```matlab
+clear
+
+n = input("");
+for i = 1:n
+    a(i) = input("");
+end
+
+fprintf("%d\n", length(unique(a)))
+```
+
+MATLABでは行列の範囲外を指定して要素を挿入することができます。[(Mathworksの行列の作成、連結、および拡張を参照)](https://jp.mathworks.com/help/matlab/math/creating-and-concatenating-matrices.html)
+ただし、サイズが大きくなるたびメモリを新しく確保するため、この方法は速度の低下の原因となります。あらかじめ``zeros(1,n)``などでメモリを確保しておくと良いでしょう。
+
+## ABC085C - Otoshidama
+
+```matlab
+clear
+
+inputLine = str2num(input('', 's'));
+
+n = inputLine(1);
+y = inputLine(2);
+
+answer = [-1 -1 -1];
+
+for i=0:n
+    for j=0:n-i
+        if y == 10000*i+5000*j+1000*(n-i-j)
+            answer = [i, j, n-i-j];
+        end
+    end
+end
+
+fprintf("%d %d %d\n", answer)
+```
+
+この解法ですが、Octaveで実行するとおそらくTLEします。
+
+n = 2000, y = 20000000 とすると、自分のPCでの計測ですが、MATLABで0.085932秒であり、Octaveでは9.70843秒となりました。これではあまりにも差がありすぎるため、MATLABユーザーがOctaveを使っての参加をやめてしまう理由になると思います。
+
+ぜひともMATLABを導入してもらいたいものです。
+
+## ABC049C - 白昼夢
+
+```matlab
+clear
+
+s = input("", "s");
+
+s_reverse = reverse(s);
+
+r_elem = reverse(["dream" "dreamer" "erase" "eraser"]);
+
+flg = 1;
+
+while s_reverse
+    for e = r_elem
+        k = strfind(s_reverse, e);
+        if ~isempty(k) && k(1) == 1
+            flg=0;
+            s_reverse = s_reverse(strlength(e)+1:end);
+            break
+        end
+    end
+
+    if flg
+        fprintf("NO\n")
+        return
+    else
+        flg = 1;
+    end
+end
+fprintf("YES\n")
+```
+
+``reverse(str)``で文字列を反転します。
+``isempty()``は空配列であれば真となります。
+
+## ABC086C - Traveling
+
+```matlab
+clear
+
+n = input("");
+
+txy = zeros(3,n+1);
+
+for i = 2:n+1
+    txy(:,i) = str2num(input("", 's'));
+end
+
+for i = 2:n+1
+    diff_t = txy(1,i) - txy(1,i-1);
+    distance = sum(abs(txy(2:3,i)-txy(2:3,i-1)));
+    if mod(distance - diff_t, 2) || (diff_t < distance)
+        fprintf("No")
+        return
+    end
+end
+
+fprintf("Yes")
+```
+
+``txy(:,i)`` は txyのi列目のすべての要素を指しています。
+よって最初のfor文によって``txy``には次のようにデータが入ります。
+
+```matlab
+txy =
+     0     t1    t2   ...   tn
+     0     x1    x2   ...   xn
+     0     y1    y2   ...   yn
+```
